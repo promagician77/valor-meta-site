@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Meta Ads audit model for Valor Tax Relief</title>
+<meta name="description" content="A working Meta Ads audit for a tax-relief lead-gen account: every campaign judged on paying clients and cash, a 20-a-week creative testing system, a GoHighLevel to Meta Conversions API bridge and scaling economics.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="mast">
+  <div class="wrap mast-row">
+    <p class="mast-title">Meta Ads audit model for Valor Tax Relief</p>
+    <p class="mast-by">Prepared by Santiago</p>
+    <nav aria-label="Sections">
+      <a href="#audit">Audit</a>
+      <a href="#testing">Creative testing</a>
+      <a href="#tracking">CRM to Meta</a>
+      <a href="#scaling">Scaling</a>
+      <a href="#plan">First 30 days</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <h1 id="hero-title">Judge every ad on paying clients, not form fills.</h1>
+    <p class="lede">A working audit of a tax-relief Meta account built to match your own example: about $3,000 a day and about $2,000 per paying client. Ad spend is joined to a CRM pipeline, lead by lead, through to signed clients and cash collected. The account and CRM are synthetic until your exports replace them; every number below recalculates from them.</p>
+
+    <div class="receipt" aria-labelledby="receipt-caption">
+      <div class="receipt-head">
+        <p id="receipt-caption" class="receipt-caption">What each stage costs</p>
+        <div class="seg-controls">
+          <div class="segmented" role="radiogroup" aria-label="Time window">
+            <button type="button" role="radio" aria-checked="false" data-window="30">Last 30 days</button>
+            <button type="button" role="radio" aria-checked="true" data-window="60">Last 60 days</button>
+          </div>
+          <div class="segmented" role="radiogroup" aria-label="How clients are counted">
+            <button type="button" role="radio" aria-checked="false" data-count="signed">Signed so far</button>
+            <button type="button" role="radio" aria-checked="true" data-count="adjusted">Adjusted for pipeline</button>
+          </div>
+        </div>
+      </div>
+      <ol class="stages" id="stages"></ol>
+      <p class="receipt-note" id="receipt-note" aria-live="polite"></p>
+    </div>
+
+    <h2 class="visually-hidden">What the audit found</h2>
+    <ul class="findings" id="findings"></ul>
+  </section>
+
+  <section class="band" id="audit" aria-labelledby="audit-title">
+    <div class="wrap">
+      <h2 id="audit-title">The audit</h2>
+      <p class="section-lede">Every campaign and angle is judged against two numbers worked out from the cash a client actually pays: the break-even CAC, and a target CAC that returns 1.5 times what it cost. Where a campaign has fewer than 8 clients, it is judged on cost per qualified lead instead, because a CAC built on 3 clients is mostly noise.</p>
+      <div class="targets" id="targets"></div>
+
+      <h3>Campaigns, last 60 days</h3>
+      <div class="table-scroll" tabindex="0"><table class="data" id="campaigns"></table></div>
+
+      <div class="grid-2">
+        <div>
+          <h3>Creative angles</h3>
+          <div class="table-scroll" tabindex="0"><table class="data" id="angles"></table></div>
+        </div>
+        <div>
+          <h3>Cheap leads are not cheap clients</h3>
+          <p class="note">Each dot is an ad with at least 2 clients. Cost per lead across, cost per client up.</p>
+          <div class="chart" id="chart-scatter"></div>
+          <div class="tooltip" id="tip-scatter" role="status" hidden></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h3>Why recent CAC looks worse than it is</h3>
+          <p class="note">Leads by the week they arrived. Clients counted as signed so far, against the count adjusted for leads still in the pipeline. Half of all signings take more than <span id="median-days"></span> days.</p>
+          <div class="legend" id="cohort-legend"></div>
+          <div class="chart" id="chart-cohorts"></div>
+          <div class="tooltip" id="tip-cohorts" role="status" hidden></div>
+          <details class="tableview">
+            <summary>Show as a table</summary>
+            <div class="table-scroll" tabindex="0"><table class="data" id="cohort-table"></table></div>
+          </details>
+        </div>
+        <div>
+          <h3>Tracking: what Meta sees against what the CRM holds</h3>
+          <div class="table-scroll" tabindex="0"><table class="data" id="tracking-table"></table></div>
+          <p class="note" id="tracking-note"></p>
+          <h3>Speed to lead</h3>
+          <div class="callout" id="speed"></div>
+        </div>
+      </div>
+
+      <h3>Your question 3: $3,000 a day at about $2,000 per client. What to investigate first</h3>
+      <ol class="steps" id="q3"></ol>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="testing" aria-labelledby="testing-title">
+    <div class="wrap">
+      <h2 id="testing-title">Creative testing: 20 variations a week</h2>
+      <p class="section-lede">The arithmetic first. Twenty variations share the test budget, so each one buys a few clicks' worth of judgement, not a client's. The system below judges each stage on the data that stage can actually produce.</p>
+
+      <div class="budget">
+        <div class="budget-controls">
+          <label for="t-share">Share of spend for testing: <output id="t-share-out"></output></label>
+          <input type="range" id="t-share" min="0.1" max="0.3" step="0.05" value="0.15">
+          <label for="t-cpl">Cost per lead: <output id="t-cpl-out"></output></label>
+          <input type="range" id="t-cpl" min="40" max="140" step="5" value="75">
+        </div>
+        <dl class="budget-out" id="budget-out"></dl>
+      </div>
+
+      <h3>This week's 20, mostly built on what already works</h3>
+      <div class="concepts" id="concepts"></div>
+
+      <h3>How winners are picked, and how often each way is right</h3>
+      <p class="note">2,000 simulated weeks of 20 variations. In each, two ads are promoted, and the simulation knows each ad's true cost per client. "Beat the control" means the promoted ad really costs less per client than the current best ad.</p>
+      <div class="sim-switch">
+        <label class="switch">
+          <input type="checkbox" id="weak-toggle">
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          <span>Assume cheap leads are only slightly worse</span>
+        </label>
+      </div>
+      <div class="table-scroll" tabindex="0"><table class="data" id="sim"></table></div>
+      <ol class="gates" id="gates"></ol>
+
+      <h3>Pre-flight copy check</h3>
+      <p class="note">Meta rejects copy that implies a viewer's financial status, and regulators have pursued tax-relief firms over "pennies on the dollar" and impersonation claims. Every variation goes through this before launch. It flags copy for review; it is not legal advice.</p>
+      <div class="linter">
+        <label for="copy-input">Ad copy</label>
+        <textarea id="copy-input" rows="3" spellcheck="true">Owe the IRS more than $10,000? Settle for pennies on the dollar.</textarea>
+        <ul class="lint-out" id="lint-out" aria-live="polite"></ul>
+      </div>
+      <details class="tableview" open>
+        <summary>Typical lines and compliant rewrites</summary>
+        <div class="table-scroll" tabindex="0"><table class="data" id="examples"></table></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="band" id="tracking" aria-labelledby="tracking-title">
+    <div class="wrap">
+      <h2 id="tracking-title">From GoHighLevel stage to Meta conversion</h2>
+      <p class="section-lede">Meta can only optimize for what it is told. When a lead moves stage in GoHighLevel, a webhook sends one Conversions API event: instant-form leads use Meta's Conversion Leads format with the lead ID; website leads reuse the pixel's event ID so Meta counts them once, and later stages carry fbc and hashed contact details. The receiver is in the kit and tested against a fake Meta endpoint.</p>
+      <div class="table-scroll" tabindex="0"><table class="data" id="stage-map"></table></div>
+
+      <div class="builder">
+        <div class="builder-form">
+          <h3>Build an event</h3>
+          <div class="segmented" role="radiogroup" aria-label="Sample webhook">
+            <button type="button" role="radio" aria-checked="true" data-sample="instant_qualified">Instant-form lead qualified</button>
+            <button type="button" role="radio" aria-checked="false" data-sample="web_lead">Website lead</button>
+            <button type="button" role="radio" aria-checked="false" data-sample="web_payment">Payment collected</button>
+          </div>
+          <form id="hook-form" class="hook-form"></form>
+          <p class="note">Fictional contacts. Hashing runs in your browser with Web Crypto; nothing is sent anywhere.</p>
+        </div>
+        <div class="builder-out">
+          <h3>Checks</h3>
+          <ul class="checks" id="capi-checks" aria-live="polite"></ul>
+          <h3>Payload</h3>
+          <pre class="code" id="capi-payload" tabindex="0"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="scaling" aria-labelledby="scaling-title">
+    <div class="wrap">
+      <h2 id="scaling-title">When spend earns more spend</h2>
+      <p class="section-lede">Each extra dollar buys a little less than the last. The question is not whether CAC rises with budget, but where the next client stops paying for itself. That point is set by what a client pays and what serving them costs.</p>
+      <div class="econ">
+        <div class="econ-controls">
+          <label for="e-cash">Cash per client in 180 days: <output id="e-cash-out"></output></label>
+          <input type="range" id="e-cash" min="2500" max="6000" step="1">
+          <label for="e-cost">Delivery cost and commission: <output id="e-cost-out"></output></label>
+          <input type="range" id="e-cost" min="0.2" max="0.55" step="0.05" value="0.35">
+          <label for="e-elastic">How fast returns fall with spend: <output id="e-elastic-out"></output></label>
+          <input type="range" id="e-elastic" min="0.6" max="0.95" step="0.05" value="0.8">
+          <dl class="econ-out" id="econ-out"></dl>
+        </div>
+        <div>
+          <div class="table-scroll" tabindex="0"><table class="data" id="forecast"></table></div>
+          <p class="note" id="ladder"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="plan" aria-labelledby="plan-title">
+    <div class="wrap">
+      <h2 id="plan-title">The first 30 days, at your checkpoints</h2>
+      <ol class="plan" id="plan-list"></ol>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="measured" aria-labelledby="measured-title">
+    <div class="wrap grid-2">
+      <div>
+        <h2 id="measured-title">Measured</h2>
+        <ul class="plain" id="measured-list"></ul>
+      </div>
+      <div>
+        <h2>Not measured</h2>
+        <ul class="plain">
+          <li>Your account. Spend, leads, pipeline stages, fees and payments are synthetic, with every assumption stated in the kit.</li>
+          <li>How strongly cheap leads underperform in your account. The simulation fits it to the angle table and shows the result with a weaker effect too.</li>
+          <li>Live calls to Meta or GoHighLevel. Events are built and checked against Meta's documented rules, and the receiver is tested against a fake Meta endpoint.</li>
+          <li>Meta's Event Match Quality score. The builder lists which match keys are present; Meta scores them.</li>
+          <li>The spend-response curve. Its shape is an assumption until budget steps give real points.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Prepared by Santiago for Valor Tax Relief's review. Not affiliated with Valor Tax Relief, Meta or HighLevel. <span id="generated"></span></p>
+  </div>
+</footer>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>
